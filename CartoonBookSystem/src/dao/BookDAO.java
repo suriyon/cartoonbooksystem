@@ -74,19 +74,16 @@ public class BookDAO {
 	}
 	public boolean update(Book book) {
 		boolean result = false;
-		String sql = "update book set book_name = ?, mem_addr = ?, mem_tel = ? where mem_id = ?";
+		String sql = "update book set book_name = ?, price = ?, book_total = ?, book_remain = ?, book_rent = ? where book_id = ?";
 		try {
 			PreparedStatement ps = MySQLHelper.open().prepareStatement(sql);
-			ps.setString(1, book.getBookId());
-			ps.setString(2, book.getBookName());
-			ps.setInt(3, book.getBookPrice());
-			ps.setInt(4, book.getPrice());
-			ps.setInt(5, book.getBookTotal());
-			ps.setInt(6, book.getBookRemain());
-			ps.setInt(7, book.getBookRent());
-			ps.setString(8, book.getPublisher().getPubId());
-			ps.setString(9, book.getWriter().getWriterId());
-			ps.setString(10, book.getCategory().getCatId());
+			ps.setString(6, book.getBookId());
+			ps.setString(1, book.getBookName());
+			ps.setInt(5, book.getBookRent());
+			ps.setInt(2, book.getPrice());
+			ps.setInt(3, book.getBookTotal());
+			ps.setInt(4, book.getBookRemain());
+			
 			int row = ps.executeUpdate();
 			if(row > 0)
 				result = true;
@@ -100,19 +97,25 @@ public class BookDAO {
 	}
 	
 	public Vector selectAll() {
-		Vector members = new Vector();
-		String sql = "select * from member";
+		Vector books = new Vector();
+		String sql = "select * from book";
 		try {
 			PreparedStatement ps = MySQLHelper.open().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				Vector member = new Vector();
-				member.add(rs.getString(1));
-				member.add(rs.getString(2));
-				member.add(rs.getString(3));
-				member.add(rs.getString(4));
-				
-				members.add(member);
+				Vector book = new Vector();
+				book.add(rs.getString(1));
+				book.add(rs.getString(2));
+				book.add(rs.getString(3));
+				book.add(rs.getString(4));
+				book.add(rs.getString(5));
+				book.add(rs.getString(6));
+				book.add(rs.getString(7));
+				book.add(rs.getString(8));
+				book.add(rs.getString(9));
+				book.add(rs.getString(10));
+								
+				books.add(book);
 			}
 			rs.close();
 			ps.close();
@@ -121,24 +124,30 @@ public class BookDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return members;
+		return books;
 	}
 	
 	public Vector selectByName(String name) {
-		Vector members = new Vector();
-		String sql = "select * from member where mem_name like ?";
+		Vector books = new Vector();
+		String sql = "select * from book where book_name like ?";
 		try {
 			PreparedStatement ps = MySQLHelper.open().prepareStatement(sql);
 			ps.setString(1, "%" + name + "%");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				Vector member = new Vector();
-				member.add(rs.getString(1));
-				member.add(rs.getString(2));
-				member.add(rs.getString(3));
-				member.add(rs.getString(4));
+				Vector book = new Vector();
+				book.add(rs.getString(1));
+				book.add(rs.getString(2));
+				book.add(rs.getString(3));
+				book.add(rs.getString(4));
+				book.add(rs.getString(5));
+				book.add(rs.getString(6));
+				book.add(rs.getString(7));
+				book.add(rs.getString(8));
+				book.add(rs.getString(9));
+				book.add(rs.getString(10));				
 				
-				members.add(member);
+				books.add(book);
 			}
 			rs.close();
 			ps.close();
@@ -147,6 +156,6 @@ public class BookDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return members;
+		return books;
 	}
 }
