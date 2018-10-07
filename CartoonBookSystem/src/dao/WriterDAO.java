@@ -3,6 +3,8 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import model.Category;
@@ -111,6 +113,28 @@ public class WriterDAO {
 				Vector writer = new Vector();
 				writer.add(rs.getString(1));
 				writer.add(rs.getString(2));
+				
+				writers.add(writer);
+			}
+			rs.close();
+			ps.close();
+			MySQLHelper.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return writers;
+	}
+	public List<Writer> select(){
+		List<Writer> writers = new ArrayList<Writer>();
+		String sql = "select * from writer";
+		try {
+			PreparedStatement ps = MySQLHelper.open().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Writer writer = new Writer();
+				writer.setWriterId(rs.getString(1));
+				writer.setWriterName(rs.getString(2));
 				
 				writers.add(writer);
 			}

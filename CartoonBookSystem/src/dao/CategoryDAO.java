@@ -3,9 +3,12 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import model.Category;
+import model.Publisher;
 import utils.MySQLHelper;
 
 public class CategoryDAO {
@@ -109,6 +112,29 @@ public class CategoryDAO {
 				Vector category = new Vector();
 				category.add(rs.getString(1));
 				category.add(rs.getString(2));
+				
+				categories.add(category);
+			}
+			rs.close();
+			ps.close();
+			MySQLHelper.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return categories;
+	}
+	
+	public List<Category> select(){
+		List<Category> categories = new ArrayList<Category>();
+		String sql = "select * from category";
+		try {
+			PreparedStatement ps = MySQLHelper.open().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Category category = new Category();
+				category.setCatId(rs.getString(1));
+				category.setCatName(rs.getString(2));
 				
 				categories.add(category);
 			}

@@ -3,10 +3,13 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import model.Category;
 import model.Publisher;
+import model.Writer;
 import utils.MySQLHelper;
 
 public class PublisherDAO {
@@ -110,6 +113,28 @@ public class PublisherDAO {
 				Vector publisher = new Vector();
 				publisher.add(rs.getString(1));
 				publisher.add(rs.getString(2));
+				
+				publishers.add(publisher);
+			}
+			rs.close();
+			ps.close();
+			MySQLHelper.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return publishers;
+	}
+	public List<Publisher> select(){
+		List<Publisher> publishers = new ArrayList<Publisher>();
+		String sql = "select * from publisher";
+		try {
+			PreparedStatement ps = MySQLHelper.open().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Publisher publisher = new Publisher();
+				publisher.setPubId(rs.getString(1));
+				publisher.setPubName(rs.getString(2));
 				
 				publishers.add(publisher);
 			}

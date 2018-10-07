@@ -27,6 +27,7 @@ public class CartoonBookSystem extends JFrame {
 	private MemberFrame memberFrame = null;
 	private WriterFrame writerFrame = null;
 	private PublisherFrame publisherFrame = null;
+	private BookFrame bookFrame = null;
 	private JDesktopPane desktopPane;
 	private LoginFrame loginFrame = null;
 	private TestLoginFrame testlogin = null;
@@ -84,6 +85,18 @@ public class CartoonBookSystem extends JFrame {
 				}
 			}
 		});
+		
+		JMenuItem mntmBook = new JMenuItem("Book");
+		mntmBook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(bookFrame == null || bookFrame.isClosed()) {
+					bookFrame = new BookFrame();
+					bookFrame.setVisible(true);
+					desktopPane.add(bookFrame);
+				}
+			}
+		});
+		mnDataManagement.add(mntmBook);
 		mnDataManagement.add(mntmCategory);
 		
 		JMenuItem mntmWriter = new JMenuItem("Writer");
@@ -96,7 +109,6 @@ public class CartoonBookSystem extends JFrame {
 				}
 			}
 		});
-		mnDataManagement.add(mntmWriter);
 		
 		JMenuItem mntmPublisher = new JMenuItem("Publisher");
 		mntmPublisher.addActionListener(new ActionListener() {
@@ -109,6 +121,7 @@ public class CartoonBookSystem extends JFrame {
 			}
 		});
 		mnDataManagement.add(mntmPublisher);
+		mnDataManagement.add(mntmWriter);
 		
 		mnSettings = new JMenu("Settings");
 		mnSettings.setEnabled(false);
