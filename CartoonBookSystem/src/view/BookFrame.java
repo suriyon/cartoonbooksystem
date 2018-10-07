@@ -8,7 +8,11 @@ import javax.swing.UIManager;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import dao.CategoryDAO;
+import dao.PublisherDAO;
 import dao.WriterDAO;
+import model.Category;
+import model.Publisher;
 import model.Writer;
 import utils.ComboBoxItem;
 
@@ -153,11 +157,49 @@ public class BookFrame extends JInternalFrame {
 		
 		
 		addWriterToComboBox();
+		addPublisherToComboBox();
+		addCategoryToComboBox();
 
 	}
 
+	private void addCategoryToComboBox() {
+		if(comboBoxCategory.getItemCount() > 0) {
+			comboBoxCategory.removeAllItems();
+		}
+		
+		CategoryDAO dao = new CategoryDAO();
+		List<Category> categories = dao.select();
+		
+		for (Category category : categories) {
+			comboBoxCategory.addItem(
+					new ComboBoxItem(
+							category.getCatId(), 
+							category.getCatName()
+						)
+					);
+		}
+	}
+
+	private void addPublisherToComboBox() {
+		if(comboBoxPublisher.getItemCount() > 0) {
+			comboBoxPublisher.removeAllItems();
+		}
+		
+		PublisherDAO dao = new PublisherDAO();
+		List<Publisher> publishers = dao.select();
+		
+		for (Publisher publisher : publishers) {
+			comboBoxPublisher.addItem(
+					new ComboBoxItem(
+							publisher.getPubId(), 
+							publisher.getPubName()
+						)
+					);
+		}
+	}
+
 	private void addWriterToComboBox() {
-		// TODO Auto-generated method stub
+		
 		if(comboBoxWriter.getItemCount() > 0) {
 			comboBoxWriter.removeAllItems();
 		}
